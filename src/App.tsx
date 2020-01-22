@@ -1,25 +1,49 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import Container from '@material-ui/core/Container'
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
+import Home from './routes/home/Home'
+
+
+const useStyles = makeStyles(theme => ({
+  cardHeader: {
+    paddingTop: 5,
+  },
+  container: {
+    paddingTop: 20,
+  },
+  gameImage: {
+    height: 200,
+    backgroundSize: 'contain'
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
 
 const App: React.FC = () => {
+  const classes = useStyles()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container maxWidth="xl" className={classes.container}>
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/event/:eventCode" children={() => <div>event here</div>} />
+          <Route path="/event/:eventCode/play/add" children={() => <div>add play here</div>} />
+        </Switch>
+      </Router>
+    </Container>
   );
 }
 
