@@ -14,10 +14,21 @@ const Home: React.FC = () => {
   const history = useHistory()
 
   const [eventCode, setEventCode] = useState('')
+  const [eventCodeError, setEventCodeError] = useState(false)
+  const [eventCodeLabel, setEventCodeLabel] = useState('Event code')
 
-  const navigateToEvent = (eventCode: String) => history.push(`/event/${eventCode}`)
+  const navigateToEvent = (eventCode: String) => {
+    if (eventCode.trim() === '') {
+      setEventCodeLabel('Please enter an event code')
+      setEventCodeError(true)
+      return
+    }
+    history.push(`/event/${eventCode}`)
+  }
 
   const eventCodeInputChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEventCodeLabel('Event code')
+    setEventCodeError(false)
     setEventCode(event.target.value)
   }
 
@@ -36,7 +47,7 @@ const Home: React.FC = () => {
     /* style={{height: '100vh'}} */
     <Container
       maxWidth="xl"
-      style={{height: '100vh'}}
+      style={{height: '50vh'}}
     >
       <Grid
         container
@@ -52,7 +63,7 @@ const Home: React.FC = () => {
           <Grid
             item
             xs={12}
-            style={{textAlign: 'center'}}
+            style={{textAlign: 'center', marginBottom: '16px'}}
           >
             <Typography variant="h2" gutterBottom>
               Board Game Tournament
@@ -65,14 +76,14 @@ const Home: React.FC = () => {
             xs={12}
             sm={10}
             md={8}
-            lg={6}
-            xl={3}
+            lg={5}
+            xl={4}
             spacing={2}
             justify="center"
             style={{flexGrow: 1}}
           >
             <TextField
-              label="Event code"
+              label={eventCodeLabel}
               type="search"
               variant="outlined"
               value={eventCode}
@@ -80,6 +91,7 @@ const Home: React.FC = () => {
               onKeyPress={eventCodeInputKeyPress}
               autoFocus
               style={{flexGrow: 1, marginRight: '8px'}}
+              error={eventCodeError}
             />
             <Button
               variant="contained"
