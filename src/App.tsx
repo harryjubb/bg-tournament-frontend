@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Container from '@material-ui/core/Container'
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 
 import {
   BrowserRouter as Router,
@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 
 import Home from './routes/home/Home'
+import Dashboard from './routes/event/Dashboard'
 
 
 const useStyles = makeStyles(theme => ({
@@ -33,17 +34,15 @@ const App: React.FC = () => {
   const classes = useStyles()
 
   return (
-    <Container maxWidth="xl" className={classes.container}>
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/event/:eventCode" children={() => <div>event here</div>} />
-          <Route path="/event/:eventCode/play/add" children={() => <div>add play here</div>} />
-        </Switch>
-      </Router>
-    </Container>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/event/:eventCode" children={() => <Dashboard />} />
+        <Route path="/event/:eventCode/play/add" children={() => <div>add play here</div>} />
+      </Switch>
+    </Router>
   );
 }
 
