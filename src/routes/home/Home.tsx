@@ -41,10 +41,6 @@ const Home: React.FC = () => {
 
 
   return (
-    /* direction="column" */
-    /* justify="center" */
-    /* alignItems="center" */
-    /* style={{height: '100vh'}} */
     <Container
       maxWidth="xl"
       style={{height: '50vh'}}
