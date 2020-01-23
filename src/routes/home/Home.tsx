@@ -3,7 +3,8 @@ import {useState} from 'react';
 
 import {useHistory} from "react-router-dom";
 
-import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -29,36 +30,69 @@ const Home: React.FC = () => {
 
 
   return (
-    <Box display="flex" alignItems="center" justifyContent="center" css={{height: '100vh', width: '100vw'}}>
-      <Box>
-        <Box>
-          <Typography variant="h1" gutterBottom>
-            Board Game Tournament
-          </Typography>
-        </Box>
-
-        <Box display="flex" justifyContent="center">
-          <TextField
-            label="Event code"
-            type="search"
-            variant="outlined"
-            value={eventCode}
-            onChange={eventCodeInputChanged}
-            onKeyPress={eventCodeInputKeyPress}
-            fullWidth
-          />
-          &nbsp;
-          &nbsp;
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigateToEvent(eventCode)}
+    /* direction="column" */
+    /* justify="center" */
+    /* alignItems="center" */
+    /* style={{height: '100vh'}} */
+    <Container
+      maxWidth="xl"
+      style={{height: '100vh'}}
+    >
+      <Grid
+        container
+        xs={12}
+        alignItems="center"
+        style={{height: 'inherit'}}
+      >
+        <Grid
+          container
+          xs={12}
+          justify="center"
+        >
+          <Grid
+            item
+            xs={12}
+            style={{textAlign: 'center'}}
           >
-            Go
-          </Button>
-        </Box>
-      </Box>
-    </Box>
+            <Typography variant="h2" gutterBottom>
+              Board Game Tournament
+        </Typography>
+          </Grid>
+
+          <Grid
+            container
+            item
+            xs={12}
+            sm={10}
+            md={8}
+            lg={6}
+            xl={3}
+            spacing={2}
+            justify="center"
+            style={{flexGrow: 1}}
+          >
+            <TextField
+              label="Event code"
+              type="search"
+              variant="outlined"
+              value={eventCode}
+              onChange={eventCodeInputChanged}
+              onKeyPress={eventCodeInputKeyPress}
+              autoFocus
+              style={{flexGrow: 1, marginRight: '8px'}}
+            />
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              onClick={() => navigateToEvent(eventCode)}
+            >
+              Go
+        </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Container >
   );
 }
 
