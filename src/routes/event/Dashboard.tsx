@@ -41,6 +41,21 @@ const useStyles = makeStyles((theme: Theme) =>
     inline: {
       display: 'inline',
     },
+    scoreDisplay: {
+      marginTop: theme.spacing(1)
+    },
+    pointsDisplay: {
+      color: '#d4af37'
+    },
+    winDisplay: {
+      color: 'green'
+    },
+    lossDisplay: {
+      color: 'red'
+    },
+    ratioDisplay: {
+      color: 'gray'
+    },
   }),
 );
 
@@ -132,24 +147,58 @@ const Dashboard: React.FC = () => {
                   {player.name}
                 </React.Fragment>}
                 secondary={
-                  <React.Fragment>
-                    {/* className={classes.inline} */}
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textPrimary"
-                    >
-                      <StarsIcon />
-                      {player.score}
-                    </Typography>
-                    {
-                      <React.Fragment>
-                        <ThumbUpIcon style={{marginRight: '8px'}} />{player.wins}
-                        <ThumbDownIcon style={{marginRight: '8px'}} /> {player.losses}
-                        <ThumbsUpDownIcon style={{marginRight: '8px'}} /> {player.winLossPercent}
-                      </React.Fragment>
-                    }
-                  </React.Fragment>
+                  <Grid
+                    container
+                    alignItems="center"
+                    spacing={1}
+                    xs={12}
+                    className={classes.scoreDisplay}
+                  >
+                    <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
+                      <Grid
+                        container
+                        alignItems="center"
+                        spacing={1}
+                        xs={12}
+                        style={{color: 'black'}}
+                      >
+                        <StarsIcon className={classes.pointsDisplay} fontSize="small" />&nbsp;&nbsp;{player.score}
+                      </Grid>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
+                      <Grid
+                        container
+                        alignItems="center"
+                        spacing={1}
+                        xs={12}
+                        className={classes.winDisplay}
+                      >
+                        <ThumbUpIcon fontSize="small" />&nbsp;&nbsp;{player.wins}
+                      </Grid>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
+                      <Grid
+                        container
+                        alignItems="center"
+                        spacing={1}
+                        xs={12}
+                        className={classes.lossDisplay}
+                      >
+                        <ThumbDownIcon fontSize="small" />&nbsp;&nbsp;{player.losses}
+                      </Grid>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
+                      <Grid
+                        container
+                        alignItems="center"
+                        spacing={1}
+                        xs={12}
+                        className={classes.ratioDisplay}
+                      >
+                        <ThumbsUpDownIcon fontSize="small" />&nbsp;&nbsp;{player.winLossPercent}
+                      </Grid>
+                    </Grid>
+                  </Grid>
                 }
               />
             </ListItem>
