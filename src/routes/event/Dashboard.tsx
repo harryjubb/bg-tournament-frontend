@@ -4,11 +4,9 @@ import {useParams} from 'react-router-dom'
 import gql from 'graphql-tag';
 import {useQuery} from '@apollo/react-hooks';
 
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import {withStyles, createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 /* import Divider from '@material-ui/core/Divider'; */
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -16,6 +14,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import Badge from '@material-ui/core/Badge';
 
 import StarsIcon from '@material-ui/icons/Stars';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
@@ -32,6 +31,17 @@ import ThumbsUpDownIcon from '@material-ui/icons/ThumbsUpDown';
 /*   }, */
 /* })); */
 
+const StyledBadge = withStyles((theme: Theme) =>
+  createStyles({
+    badge: {
+      right: -10,
+      top: 20,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: '0 4px',
+    },
+  }),
+)(Badge);
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -42,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'inline',
     },
     scoreDisplay: {
-      marginTop: theme.spacing(1)
+      marginTop: theme.spacing(0.5)
     },
     pointsDisplay: {
       color: '#d4af37'
@@ -107,9 +117,9 @@ const Dashboard: React.FC = () => {
   return (
     <React.Fragment>
 
-      <Typography variant="h2" gutterBottom>
-        Leaderboard
-      </Typography>
+      {/* <Typography variant="h4" gutterBottom> */}
+      {/*   Leaderboard */}
+      {/* </Typography> */}
 
       {/* {JSON.stringify(data)} */}
 
@@ -122,29 +132,33 @@ const Dashboard: React.FC = () => {
         xs={12}
       >
         <List className={classes.root}>
+          {/* <Divider variant="inset" component="li" /> */}
           {
 
             processedPlayers.map((player, index) => <React.Fragment><ListItem alignItems="flex-start">
-              <ListItemAvatar>
-                <Grid
-                  container
-                  direction="column"
-                  justify="center"
-                  alignItems="center"
-                  spacing={2}
-                  xs={12}
-                >
+              <ListItemAvatar style={{marginRight: '25px'}}>
+                {/* <Grid */}
+                {/*   container */}
+                {/*   direction="column" */}
+                {/*   justify="center" */}
+                {/*   alignItems="center" */}
+                {/*   spacing={2} */}
+                {/*   xs={12} */}
+                {/* > */}
+                <StyledBadge badgeContent={`${index + 1}${(nth(index + 1))}`} color='secondary'>
                   <Avatar alt={player.name} src="/broken-image.jpg">
                     {player.initial}
                   </Avatar>
-                  <Typography variant="caption" color="textSecondary">
-                    {index + 1}{(nth(index + 1))}
-                  </Typography>
-                </Grid>
+                </StyledBadge>
+                {/* <Typography variant="caption" color="textSecondary"> */}
+                {/*   {index + 1}{(nth(index + 1))} */}
+                {/* </Typography> */}
+                {/* </Grid> */}
               </ListItemAvatar>
               <ListItemText
                 primary={<React.Fragment>
                   {player.name}
+                  {/* &mdash; {index + 1}{(nth(index + 1))} */}
                 </React.Fragment>}
                 secondary={
                   <Grid
@@ -162,7 +176,7 @@ const Dashboard: React.FC = () => {
                         xs={12}
                         style={{color: 'black'}}
                       >
-                        <StarsIcon className={classes.pointsDisplay} fontSize="small" />&nbsp;&nbsp;{player.score}
+                        <StarsIcon className={classes.pointsDisplay} fontSize="small" />&nbsp;{player.score}
                       </Grid>
                     </Grid>
                     <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
