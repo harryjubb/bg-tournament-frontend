@@ -4,12 +4,17 @@ import {useParams} from 'react-router-dom'
 import gql from 'graphql-tag';
 import {useQuery} from '@apollo/react-hooks';
 
-/* import {createStyles, makeStyles, Theme} from '@material-ui/core/styles'; */
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 /* import Divider from '@material-ui/core/Divider'; */
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
 import StarsIcon from '@material-ui/icons/Stars';
@@ -26,6 +31,19 @@ import ThumbsUpDownIcon from '@material-ui/icons/ThumbsUpDown';
 /*     verticalAlign: 'center' */
 /*   }, */
 /* })); */
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: '100%',
+      backgroundColor: theme.palette.background.paper,
+    },
+    inline: {
+      display: 'inline',
+    },
+  }),
+);
+
 
 const GET_EVENT = gql`
 query ($eventCode: String!) {
@@ -49,7 +67,7 @@ const nth = (n: number) => ["st", "nd", "rd"][((n + 90) % 100 - 10) % 10 - 1] ||
 
 const Dashboard: React.FC = () => {
 
-  /* const classes = useStyles(); */
+  const classes = useStyles();
   const {eventCode} = useParams()
   const {loading, error, data} = useQuery(GET_EVENT, {
     variables: {
@@ -74,19 +92,8 @@ const Dashboard: React.FC = () => {
   return (
     <React.Fragment>
 
-      <Typography variant="h2">
-        {name ?? 'Unknown event'}
-      </Typography>
-      <Typography variant="h4" gutterBottom color="textSecondary">
-        {code ?? 'Unknown event code'}
-        {/*   <Button */}
-        {/*     variant="contained" */}
-        {/*     color="primary" */}
-        {/*     className={classes.button} */}
-        {/*     startIcon={<ShareIcon />} */}
-        {/*   > */}
-        {/*     Share */}
-        {/* </Button> */}
+      <Typography variant="h2" gutterBottom>
+        Leaderboard
       </Typography>
 
       {/* {JSON.stringify(data)} */}
@@ -99,64 +106,57 @@ const Dashboard: React.FC = () => {
         spacing={2}
         xs={12}
       >
-        {
+        <List className={classes.root}>
+          {
 
-          processedPlayers.map((player, index) => <Grid item xs={12}>
-            <Card variant="outlined">
-              <CardContent>
+            processedPlayers.map((player, index) => <React.Fragment><ListItem alignItems="flex-start">
+              <ListItemAvatar>
                 <Grid
                   container
-                  direction="row"
+                  direction="column"
+                  justify="center"
                   alignItems="center"
-                  spacing={1}
+                  spacing={2}
+                  xs={12}
                 >
-                  <Grid item>
-                    <Avatar alt={player.name} src="/broken-image.jpg" style={{marginRight: '8px'}}>
-                      {player.initial}
-                    </Avatar>
-                  </Grid>
-                  <Grid item xl={1} lg={1} md={1} sm={12} xs={12} alignItems="center">
-                    <Typography variant="h5">
-                      {player.name}
-                    </Typography>
-                  </Grid>
-                  {/* <Divider orientation="vertical" /> */}
-                  <Grid item container md={1} sm={1} xs={3} alignItems="center">
-                    <Typography variant="h5" component="h5" color="secondary">
-                      {index + 1}{(nth(index + 1))}
-                    </Typography>
-                  </Grid>
-                  <Grid item container md={1} sm={3} xs={3} alignItems="center">
-                    <Typography variant="h5" component="h5" color="primary">
-                      <StarsIcon style={{marginRight: '8px'}} />
+                  <Avatar alt={player.name} src="/broken-image.jpg">
+                    {player.initial}
+                  </Avatar>
+                  <Typography variant="caption" color="textSecondary">
+                    {index + 1}{(nth(index + 1))}
+                  </Typography>
+                </Grid>
+              </ListItemAvatar>
+              <ListItemText
+                primary={<React.Fragment>
+                  {player.name}
+                </React.Fragment>}
+                secondary={
+                  <React.Fragment>
+                    {/* className={classes.inline} */}
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      color="textPrimary"
+                    >
+                      <StarsIcon />
                       {player.score}
                     </Typography>
-                  </Grid>
-                  <Grid item container md={1} sm={3} xs={3} alignItems="center">
-                    <Typography variant="h5" component="h5" style={{color: 'green'}}>
-                      <ThumbUpIcon style={{marginRight: '8px'}} />
-                      {player.wins}
-                    </Typography>
-                  </Grid>
-                  <Grid item container md={1} sm={3} xs={3} alignItems="center">
-                    <Typography variant="h5" component="h5" style={{color: 'red'}}>
-                      <ThumbDownIcon style={{marginRight: '8px'}} />
-                      {player.losses}
-                    </Typography>
-                  </Grid>
-                  <Grid item container md={1} sm={3} xs={3} alignItems="center">
-                    <Typography variant="h5" component="h5">
-                      <ThumbsUpDownIcon style={{marginRight: '8px'}} />
-                      {player.winLossPercent}
-                    </Typography>
-                  </Grid>
-                  {/* {player.eventTotalScore ?? 'Unknown score'} */}
-                </Grid>
-              </CardContent>
-            </Card>
-          </Grid>)
-
-        }
+                    {
+                      <React.Fragment>
+                        <ThumbUpIcon style={{marginRight: '8px'}} />{player.wins}
+                        <ThumbDownIcon style={{marginRight: '8px'}} /> {player.losses}
+                        <ThumbsUpDownIcon style={{marginRight: '8px'}} /> {player.winLossPercent}
+                      </React.Fragment>
+                    }
+                  </React.Fragment>
+                }
+              />
+            </ListItem>
+              <Divider variant="inset" component="li" />
+            </React.Fragment>)
+          }
+        </List>
       </Grid>
 
     </React.Fragment >

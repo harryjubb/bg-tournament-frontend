@@ -1,0 +1,130 @@
+import React from 'react'
+
+import {
+  useRouteMatch,
+  useParams
+} from 'react-router-dom'
+
+import gql from 'graphql-tag';
+import {useQuery} from '@apollo/react-hooks';
+
+import Container from '@material-ui/core/Container'
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import Fab from '@material-ui/core/Fab';
+
+import ShareIcon from '@material-ui/icons/Share';
+import HomeIcon from '@material-ui/icons/Home';
+import AddIcon from '@material-ui/icons/Add';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
+import Dashboard from './Dashboard'
+import AddPlay from './AddPlay'
+
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+    eventContent: {
+      marginTop: theme.spacing(2)
+    },
+    fab: {
+      position: 'fixed',
+      bottom: theme.spacing(2),
+      right: theme.spacing(2),
+    },
+  }),
+);
+
+const GET_EVENT = gql`
+query ($eventCode: String!) {
+  event (code: $eventCode) {
+    id
+    code
+    name
+  }
+}
+`
+
+/* const AddFab: React.FC = () => { */
+/*   const classes = useStyles(); */
+/*   return <Fab className={classes.fab} color="primary" aria-label="add"> */
+/*     <AddIcon /> */
+/*   </Fab> */
+/* } */
+
+const Event: React.FC = () => {
+
+  const {path, url} = useRouteMatch();
+
+  const {eventCode} = useParams();
+  const classes = useStyles();
+
+  const {loading, error, data} = useQuery(GET_EVENT, {
+    variables: {
+      eventCode
+    }
+  })
+
+  if (loading) {return <div>Loading...</div>}
+  if (error) {return <div>todo 404</div>}
+
+
+  const {name: eventName} = data.event
+
+  return <div>
+    <AppBar position="sticky">
+      <Toolbar>
+        <Typography variant="h6" className={classes.title}>
+          {eventName}
+        </Typography>
+        <Typography variant="h6">
+          {eventCode}&nbsp;
+        </Typography>
+        <IconButton color="inherit">
+          <ShareIcon />
+        </IconButton>
+        <IconButton color="inherit">
+          <HomeIcon />
+        </IconButton>
+      </Toolbar>
+    </AppBar>
+    <Container
+      maxWidth="xl"
+      className={classes.eventContent}
+    >
+      <Switch>
+        <Route exact path={path}>
+          <Dashboard />
+        </Route>
+        <Route path={`${path}/play/add`}>
+          <AddPlay />
+        </Route>
+      </Switch>
+    </Container>
+    <Link to={`${url}/play/add`}>
+      <Fab className={classes.fab} color="primary" aria-label="add">
+        <AddIcon />
+      </Fab>
+    </Link>
+  </div>
+}
+
+export default Event
