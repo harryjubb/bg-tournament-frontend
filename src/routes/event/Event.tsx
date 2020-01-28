@@ -14,6 +14,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
+import Hidden from '@material-ui/core/Hidden';
 
 import ShareIcon from '@material-ui/icons/Share';
 import HomeIcon from '@material-ui/icons/Home';
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     eventContent: {
-      marginTop: theme.spacing(2)
+      marginTop: theme.spacing(1)
     },
     fab: {
       position: 'fixed',
@@ -92,12 +93,21 @@ const Event: React.FC = () => {
   return <div>
     <AppBar position="sticky">
       <Toolbar>
-        <Typography variant="h6" className={classes.title}>
-          {eventName}
+        <Hidden xsDown>
+          <Typography variant="h6" className={classes.title}>
+            {eventName}
+          </Typography>
+        </Hidden>
+        <Hidden smUp>
+          <Typography variant="h6" className={classes.title}>
+            {eventCode}
+          </Typography>
+        </Hidden>
+        <Hidden xsDown>
+          <Typography variant="h6">
+            {eventCode}&nbsp;
         </Typography>
-        <Typography variant="h6">
-          {eventCode}&nbsp;
-        </Typography>
+        </Hidden>
         <IconButton color="inherit">
           <ShareIcon />
         </IconButton>
