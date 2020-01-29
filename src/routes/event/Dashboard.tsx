@@ -97,7 +97,7 @@ const Dashboard: React.FC = () => {
 
   const classes = useStyles();
   const {eventCode} = useParams()
-  const {loading, error, data} = useQuery(GET_EVENT, {
+  const {loading, error, data, refetch} = useQuery(GET_EVENT, {
     variables: {
       eventCode
     }
@@ -117,7 +117,12 @@ const Dashboard: React.FC = () => {
     winLossPercent: `${Math.min(((player.eventWinCount / player.eventPlayCount) * 100), 100).toFixed(0) || 0}% `
   }))
 
-  const eventUpdated = (data: string) => console.log(data)
+  const eventUpdated = (data: string) => {
+    const result = JSON.parse(data)
+    if (result.type === 'event.updated') {
+      refetch()
+    }
+  }
 
   return (
     <React.Fragment>
