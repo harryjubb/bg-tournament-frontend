@@ -100,9 +100,6 @@ const Event: React.FC = () => {
         </Typography>
         </Hidden>
         <IconButton color="inherit">
-          <ShareIcon />
-        </IconButton>
-        <IconButton color="inherit">
           <HomeIcon />
         </IconButton>
       </Toolbar>
