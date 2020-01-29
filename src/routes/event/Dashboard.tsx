@@ -146,7 +146,7 @@ const Dashboard: React.FC = () => {
       >
         <List className={classes.root}>
           <FlipMove>
-            {processedPlayers.map((player, index) => <React.Fragment key={`${player.id}`}><ListItem alignItems="flex-start">
+            {processedPlayers.map((player, index) => <div key={`${player.id}`}><ListItem alignItems="flex-start">
               <ListItemAvatar style={{marginRight: '25px'}}>
                 {/* <Grid */}
                 {/*   container */}
@@ -223,7 +223,7 @@ const Dashboard: React.FC = () => {
               />
             </ListItem>
               <Divider variant="inset" component="li" />
-            </React.Fragment>)
+            </div>)
             }
           </FlipMove>
         </List>
