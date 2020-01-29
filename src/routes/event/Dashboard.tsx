@@ -24,6 +24,8 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ThumbsUpDownIcon from '@material-ui/icons/ThumbsUpDown';
 
+import FlipMove from 'react-flip-move';
+
 /* import Button from '@material-ui/core/Button'; */
 /* import ShareIcon from '@material-ui/icons/Share'; */
 
@@ -141,13 +143,10 @@ const Dashboard: React.FC = () => {
         justify="center"
         alignItems="center"
         spacing={2}
-        xs={12}
       >
         <List className={classes.root}>
-          {/* <Divider variant="inset" component="li" /> */}
-          {
-
-            processedPlayers.map((player, index) => <React.Fragment><ListItem alignItems="flex-start">
+          <FlipMove>
+            {processedPlayers.map((player, index) => <React.Fragment key={`${player.id}`}><ListItem alignItems="flex-start">
               <ListItemAvatar style={{marginRight: '25px'}}>
                 {/* <Grid */}
                 {/*   container */}
@@ -225,7 +224,8 @@ const Dashboard: React.FC = () => {
             </ListItem>
               <Divider variant="inset" component="li" />
             </React.Fragment>)
-          }
+            }
+          </FlipMove>
         </List>
       </Grid>
 
