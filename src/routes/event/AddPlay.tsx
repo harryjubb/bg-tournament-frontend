@@ -7,7 +7,7 @@ import {useQuery} from '@apollo/react-hooks';
 /* import {withStyles, createStyles, makeStyles, Theme} from '@material-ui/core/styles'; */
 
 import {ThemeProvider, createMuiTheme, createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import {green, red, grey} from '@material-ui/core/colors';
+import {green, red} from '@material-ui/core/colors';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -57,6 +57,9 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       backgroundColor: theme.palette.background.paper,
     },
+    cancelButton: {
+      marginRight: theme.spacing(0.5)
+    }
   }),
 );
 
@@ -80,13 +83,11 @@ const AddPlay: React.FC = () => {
     }
   })
 
-  console.log(data)
-
   if (loading) {return <div>Loading...</div>}
   if (error) {return <div>todo error</div>}
 
 
-  return <div>
+  return <Grid container xs={12}>
     <Typography variant="h2" gutterBottom>Add play</Typography>
 
     {/* Game */}
@@ -183,8 +184,17 @@ const AddPlay: React.FC = () => {
       }
     </List>
 
+    <Grid container item xs={12} alignItems="center" justify="flex-end">
+      <Button className={classes.cancelButton}>
+        Cancel
+      </Button>
+      <Button variant="contained" color="primary">
+        Add
+      </Button>
+    </Grid>
+
     {/* {JSON.stringify(data)} */}
-  </div>
+  </Grid>
 }
 
 export default AddPlay
