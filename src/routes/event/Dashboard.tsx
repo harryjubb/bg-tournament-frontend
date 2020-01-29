@@ -4,6 +4,9 @@ import {useParams} from 'react-router-dom'
 import gql from 'graphql-tag';
 import {useQuery} from '@apollo/react-hooks';
 
+// @ts-ignore
+import Websocket from 'react-websocket';
+
 import {withStyles, createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -114,8 +117,12 @@ const Dashboard: React.FC = () => {
     winLossPercent: `${Math.min(((player.eventWinCount / player.eventPlayCount) * 100), 100).toFixed(0) || 0}% `
   }))
 
+  const eventUpdated = (data: string) => console.log(data)
+
   return (
     <React.Fragment>
+
+      <Websocket url={`${process.env.REACT_APP_TOURNAMENT_WEBSOCKET_URL}/event/${eventCode}/`} onMessage={eventUpdated} />
 
       {/* <Typography variant="h4" gutterBottom> */}
       {/*   Leaderboard */}
