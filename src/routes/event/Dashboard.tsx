@@ -177,7 +177,6 @@ const Dashboard: React.FC = () => {
                     container
                     alignItems="center"
                     spacing={1}
-                    xs={12}
                     className={classes.scoreDisplay}
                   >
                     <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
@@ -185,7 +184,6 @@ const Dashboard: React.FC = () => {
                         container
                         alignItems="center"
                         spacing={1}
-                        xs={12}
                         style={{color: 'black'}}
                       >
                         <StarsIcon className={classes.pointsDisplay} fontSize="small" />&nbsp;{player.score}
@@ -196,7 +194,6 @@ const Dashboard: React.FC = () => {
                         container
                         alignItems="center"
                         spacing={1}
-                        xs={12}
                         className={classes.winDisplay}
                       >
                         <ThumbUpIcon fontSize="small" />&nbsp;&nbsp;{player.wins}
@@ -207,7 +204,6 @@ const Dashboard: React.FC = () => {
                         container
                         alignItems="center"
                         spacing={1}
-                        xs={12}
                         className={classes.lossDisplay}
                       >
                         <ThumbDownIcon fontSize="small" />&nbsp;&nbsp;{player.losses}
@@ -218,7 +214,6 @@ const Dashboard: React.FC = () => {
                         container
                         alignItems="center"
                         spacing={1}
-                        xs={12}
                         className={classes.ratioDisplay}
                       >
                         <ThumbsUpDownIcon fontSize="small" />&nbsp;&nbsp;{player.winLossPercent}
