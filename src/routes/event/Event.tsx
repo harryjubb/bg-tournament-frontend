@@ -13,18 +13,14 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Fab from '@material-ui/core/Fab';
 import Hidden from '@material-ui/core/Hidden';
 
 import ShareIcon from '@material-ui/icons/Share';
 import HomeIcon from '@material-ui/icons/Home';
-import AddIcon from '@material-ui/icons/Add';
 
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 import Dashboard from './Dashboard'
@@ -45,11 +41,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     eventContent: {
       marginTop: theme.spacing(1)
-    },
-    fab: {
-      position: 'fixed',
-      bottom: theme.spacing(2),
-      right: theme.spacing(2),
     },
   }),
 );
@@ -73,7 +64,7 @@ query ($eventCode: String!) {
 
 const Event: React.FC = () => {
 
-  const {path, url} = useRouteMatch();
+  const {path} = useRouteMatch();
 
   const {eventCode} = useParams();
   const classes = useStyles();
@@ -129,11 +120,6 @@ const Event: React.FC = () => {
         </Route>
       </Switch>
     </Container>
-    <Link to={`${url}/play/add`}>
-      <Fab className={classes.fab} color="primary" aria-label="add">
-        <AddIcon />
-      </Fab>
-    </Link>
   </div>
 }
 

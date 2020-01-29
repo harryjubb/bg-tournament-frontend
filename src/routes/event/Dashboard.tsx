@@ -1,5 +1,5 @@
 import React from 'react';
-import {useParams} from 'react-router-dom'
+import {Link, useParams, useRouteMatch} from 'react-router-dom'
 
 import gql from 'graphql-tag';
 import {useQuery} from '@apollo/react-hooks';
@@ -25,6 +25,9 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ThumbsUpDownIcon from '@material-ui/icons/ThumbsUpDown';
 
 import FlipMove from 'react-flip-move';
+
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 /* import Button from '@material-ui/core/Button'; */
 /* import ShareIcon from '@material-ui/icons/Share'; */
@@ -71,6 +74,11 @@ const useStyles = makeStyles((theme: Theme) =>
     ratioDisplay: {
       color: 'gray'
     },
+    fab: {
+      position: 'fixed',
+      bottom: theme.spacing(2),
+      right: theme.spacing(2),
+    },
   }),
 );
 
@@ -96,6 +104,8 @@ query ($eventCode: String!) {
 const nth = (n: number) => ["st", "nd", "rd"][((n + 90) % 100 - 10) % 10 - 1] || "th"
 
 const Dashboard: React.FC = () => {
+
+  const {url} = useRouteMatch();
 
   const classes = useStyles();
   const {eventCode} = useParams()
@@ -228,7 +238,11 @@ const Dashboard: React.FC = () => {
           </FlipMove>
         </List>
       </Grid>
-
+    <Link to={`${url}/play/add`}>
+      <Fab className={classes.fab} color="primary" aria-label="add">
+        <AddIcon />
+      </Fab>
+    </Link>
     </React.Fragment >
   )
 }
