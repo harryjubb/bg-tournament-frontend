@@ -6,8 +6,7 @@ import {useQuery} from '@apollo/react-hooks';
 
 /* import {withStyles, createStyles, makeStyles, Theme} from '@material-ui/core/styles'; */
 
-import {ThemeProvider, createMuiTheme, createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import {green, red} from '@material-ui/core/colors';
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -42,14 +41,6 @@ query ($eventCode: String!) {
   }
 }
 `
-
-const buttonTheme = createMuiTheme({
-  palette: {
-    primary: green,
-    secondary: red,
-    /* default: grey */
-  }
-})
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -123,7 +114,6 @@ const AddPlay: React.FC = () => {
                     {player.name}
                   </Grid>
                   <Grid item>
-                    <ThemeProvider theme={buttonTheme}>
                     <ButtonGroup variant="outlined" aria-label="outlined button group">
                       <Button
                         variant={
@@ -135,7 +125,7 @@ const AddPlay: React.FC = () => {
                         color="secondary"
                         onClick={() => setPlayPlayerState({
                           ...playPlayerState,
-                          [player.id]: 'loser'
+                          [player.id]: playPlayerState[player.id] === 'loser' ? 'neither' : 'loser'
                         })}
                       >
                         Loser
@@ -167,13 +157,12 @@ const AddPlay: React.FC = () => {
                         color="primary"
                         onClick={() => setPlayPlayerState({
                           ...playPlayerState,
-                          [player.id]: 'winner'
+                          [player.id]: playPlayerState[player.id] === 'winner' ? 'neither' : 'winner'
                         })}
                       >
                         Winner
                       </Button>
                     </ButtonGroup>
-                    </ThemeProvider>
                   </Grid>
                 </Grid>
               </React.Fragment>}
