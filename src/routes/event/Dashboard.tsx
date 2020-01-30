@@ -126,7 +126,7 @@ const Dashboard: React.FC = () => {
     score: Number(player.eventTotalScore).toFixed(0),
     wins: player.eventWinCount,
     losses: player.eventLossCount,
-    winLossPercent: `${Math.min(((player.eventWinCount / player.eventPlayCount) * 100), 100).toFixed(0) || 0}% `
+    winLossPercent: `${isNaN(player.eventWinCount / player.eventPlayCount) ? 0 : Math.min(((player.eventWinCount / player.eventPlayCount) * 100), 100).toFixed(0) || 0}% `
   }))
 
   const eventUpdated = (data: string) => {
@@ -238,11 +238,11 @@ const Dashboard: React.FC = () => {
           </FlipMove>
         </List>
       </Grid>
-    <Link to={`${url}/play/add`}>
-      <Fab className={classes.fab} color="primary" aria-label="add">
-        <AddIcon />
-      </Fab>
-    </Link>
+      <Link to={`${url}/play/add`}>
+        <Fab className={classes.fab} color="primary" aria-label="add">
+          <AddIcon />
+        </Fab>
+      </Link>
     </React.Fragment >
   )
 }
