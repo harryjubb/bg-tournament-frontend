@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {useParams} from 'react-router-dom'
 
 import gql from 'graphql-tag';
-import {useQuery} from '@apollo/react-hooks';
+import {useQuery, useMutation} from '@apollo/react-hooks';
 
 /* import {withStyles, createStyles, makeStyles, Theme} from '@material-ui/core/styles'; */
 
@@ -42,6 +42,14 @@ query ($eventCode: String!) {
 }
 `
 
+const ADD_PLAY = gql`
+mutation ($eventId: UUID!, $gameId: UUID!, $winnerIds: [UUID!]!, $loserIds: [UUID!]!) {
+  addPlay (eventId: $eventId, gameId: $gameId, winnerIds: $winnerIds, loserIds: $loserIds) {
+    ok
+  }
+}
+`
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -54,14 +62,20 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+interface Game {
+  id: string,
+  name: string
+}
+
 
 const AddPlay: React.FC = () => {
 
   const classes = useStyles()
   const {eventCode} = useParams()
 
-  const [selectedGame, setSelectedGame] = useState<string | null>(null)
+  const [selectedGame, setSelectedGame] = useState<Game | null>(null)
   const [playPlayerState, setPlayPlayerState] = useState<any>(null)
+  const [addDisabled, setAddDisabled] = useState<boolean>(false)
 
   const {data, loading, error} = useQuery(GET_EVENT, {
     variables: {
@@ -74,9 +88,35 @@ const AddPlay: React.FC = () => {
     }
   })
 
+  const [addPlay, {data: addPlayData}] = useMutation(ADD_PLAY)
+
   if (loading) {return <div>Loading...</div>}
   if (error) {return <div>todo error</div>}
 
+
+  const addClicked = () => {
+
+    /* TODO: Set validation state of game input (Harry Jubb, Thu 30 Jan 2020 22:10:14 GMT) */
+    if (!selectedGame) return
+
+    const winnerIds = Object.entries(playPlayerState).filter(([playerId, playerState]) => playerState === 'winner').map(([playerId, playerState]) => playerId)
+    const loserIds = Object.entries(playPlayerState).filter(([playerId, playerState]) => playerState === 'loser').map(([playerId, playerState]) => playerId)
+
+    /* TODO: Set validation state for winners/losers (Harry Jubb, Thu 30 Jan 2020 22:11:56 GMT) */
+    if (!winnerIds) return
+    if (!loserIds) return
+
+    setAddDisabled(true)
+
+    addPlay({
+      variables: {
+        eventId: data.event.id,
+        gameId: selectedGame.id,
+        winnerIds,
+        loserIds
+      }
+    })
+  }
 
   return <Grid container xs={12}>
     <Typography variant="h2" gutterBottom>Add play</Typography>
@@ -87,7 +127,7 @@ const AddPlay: React.FC = () => {
       getOptionLabel={(option: any) => option.name}
       style={{width: '100%'}}
       value={selectedGame}
-      onChange={(event: any, newValue: string | null) => {
+      onChange={(event: any, newValue: Game | null) => {
         setSelectedGame(newValue);
       }}
       renderInput={params => (
@@ -130,23 +170,6 @@ const AddPlay: React.FC = () => {
                       >
                         Loser
                         </Button>
-
-                      <Button
-                        variant={
-                          playPlayerState &&
-                            playPlayerState[player.id] === 'neither' ?
-                            'contained' :
-                            'outlined'
-                        }
-                        color='default'
-                        onClick={() => setPlayPlayerState({
-                          ...playPlayerState,
-                          [player.id]: 'neither'
-                        })}
-                      >
-                        N/A
-                      </Button>
-
                       <Button
                         variant={
                           playPlayerState &&
@@ -182,9 +205,12 @@ const AddPlay: React.FC = () => {
         color="primary"
         disabled={
           !selectedGame ||
-            !Object.values(playPlayerState).some(state => state === 'winner') ||
-            !Object.values(playPlayerState).some(state => state === 'loser')
-        }>
+          !Object.values(playPlayerState).some(state => state === 'winner') ||
+          !Object.values(playPlayerState).some(state => state === 'loser') ||
+          addDisabled
+        }
+        onClick={addClicked}
+      >
         Add
       </Button>
     </Grid>
