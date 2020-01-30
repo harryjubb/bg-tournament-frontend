@@ -69,7 +69,7 @@ const AddPlay: React.FC = () => {
   const classes = useStyles()
   const {eventCode} = useParams()
 
-  const [value, setValue] = useState<string | null>(null)
+  const [selectedGame, setSelectedGame] = useState<string | null>(null)
   const [playPlayerState, setPlayPlayerState] = useState<any>(null)
 
   const {data, loading, error} = useQuery(GET_EVENT, {
@@ -95,9 +95,9 @@ const AddPlay: React.FC = () => {
       options={data.games}
       getOptionLabel={(option: any) => option.name}
       style={{width: '100%'}}
-      value={value}
+      value={selectedGame}
       onChange={(event: any, newValue: string | null) => {
-        setValue(newValue);
+        setSelectedGame(newValue);
       }}
       renderInput={params => (
         <TextField {...params} label="Game" variant="outlined" fullWidth />
@@ -188,7 +188,14 @@ const AddPlay: React.FC = () => {
       <Button className={classes.cancelButton}>
         Cancel
       </Button>
-      <Button variant="contained" color="primary">
+      <Button
+        variant="contained"
+        color="primary"
+        disabled={
+          !selectedGame ||
+            !Object.values(playPlayerState).some(state => state === 'winner') ||
+            !Object.values(playPlayerState).some(state => state === 'loser')
+        }>
         Add
       </Button>
     </Grid>
