@@ -33,6 +33,7 @@ query ($eventCode: String!) {
     players {
       id
       name
+      avatarUrl
     }
   }
   games {
@@ -162,7 +163,7 @@ const AddPlay: React.FC = () => {
         data.event.players.map((player: any) => (<div key={player.id}>
           <ListItem>
             <ListItemAvatar>
-              <Avatar alt={player.name} src="/broken-image.jpg">
+              <Avatar alt={player.name} src={player.avatarUrl ?? 'noimage.jpg'}>
                 {/* TODO: Factor out (Harry Jubb, Wed 29 Jan 2020 21:48:16 GMT) */}
                 {player.name.slice(0, 1).toUpperCase()}
               </Avatar>
