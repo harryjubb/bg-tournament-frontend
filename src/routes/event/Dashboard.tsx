@@ -8,7 +8,7 @@ import {useQuery} from '@apollo/react-hooks';
 import Websocket from 'react-websocket';
 
 import {withStyles, createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 /* import Divider from '@material-ui/core/Divider'; */
 import List from '@material-ui/core/List';
@@ -18,6 +18,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Badge from '@material-ui/core/Badge';
+import Chip from '@material-ui/core/Chip';
 
 import StarsIcon from '@material-ui/icons/Stars';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
@@ -132,8 +133,14 @@ const Dashboard: React.FC = () => {
     rank: sortedPlayerScores.indexOf(player.eventTotalScore) + 1,
     wins: player.eventWinCount,
     losses: player.eventLossCount,
-    winLossPercent: `${isNaN(player.eventWinCount / player.eventPlayCount) ? 0 : Math.min(((player.eventWinCount / player.eventPlayCount) * 100), 100).toFixed(0) || 0}% `
+    winLossRatio: (player.eventWinCount / player.eventPlayCount) || 0,
+    winLossPercent: `${Math.min((((player.eventWinCount / player.eventPlayCount) || 0) * 100), 100).toFixed(0) || 0}% `
   }))
+
+  const maxWins = Math.max(...processedSortedPlayers.map(player => player.wins))
+  const maxLosses = Math.max(...processedSortedPlayers.map(player => player.losses))
+  const maxWinLossRatio = Math.max(...processedSortedPlayers.map(player => player.winLossRatio))
+  const maxPlays = Math.max(...processedSortedPlayers.map(player => player.wins + player.losses))
 
   const eventUpdated = (data: string) => {
     const result = JSON.parse(data)
@@ -222,6 +229,47 @@ const Dashboard: React.FC = () => {
                         <ThumbsUpDownIcon fontSize="small" />&nbsp;&nbsp;{player.winLossPercent}
                       </Grid>
                     </Grid>
+                    <Hidden smDown>
+                      <Grid item>
+                        <Grid
+                          container
+                          alignItems="center"
+                          justify="center"
+                          spacing={1}
+                          className={classes.ratioDisplay}
+                        >
+                          {/* Achievements */}
+                          {
+                            player.wins && player.wins === maxWins ?
+                              <React.Fragment>
+                                <Chip label="Most wins" />&nbsp;&nbsp;
+                            </React.Fragment>
+                              : null
+                          }
+                          {
+                            player.losses && player.losses === maxLosses ?
+                              <React.Fragment>
+                                <Chip label="Most losses" />&nbsp;&nbsp;
+                            </React.Fragment>
+                              : null
+                          }
+                          {
+                            player.winLossRatio && player.winLossRatio === maxWinLossRatio ?
+                              <React.Fragment>
+                                <Chip label="Best W/L ratio" />&nbsp;&nbsp;
+                            </React.Fragment>
+                              : null
+                          }
+                          {
+                            (player.wins || player.losses) && player.wins + player.losses === maxPlays ?
+                              <React.Fragment>
+                                <Chip label="Most plays" />&nbsp;&nbsp;
+                            </React.Fragment>
+                              : null
+                          }
+                        </Grid>
+                      </Grid>
+                    </Hidden>
                   </Grid>
                 }
               />
