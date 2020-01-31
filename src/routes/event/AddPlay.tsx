@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {useParams} from 'react-router-dom'
+import {useParams, useHistory} from 'react-router-dom'
 
 import gql from 'graphql-tag';
 import {useQuery, useMutation} from '@apollo/react-hooks';
@@ -71,6 +71,7 @@ interface Game {
 const AddPlay: React.FC = () => {
 
   const classes = useStyles()
+  const history = useHistory()
   const {eventCode} = useParams()
 
   const [selectedGame, setSelectedGame] = useState<Game | null>(null)
@@ -94,7 +95,7 @@ const AddPlay: React.FC = () => {
   if (error) {return <div>todo error</div>}
 
 
-  const addClicked = () => {
+  const addClicked = async () => {
 
     /* TODO: Set validation state of game input (Harry Jubb, Thu 30 Jan 2020 22:10:14 GMT) */
     if (!selectedGame) return
@@ -108,14 +109,33 @@ const AddPlay: React.FC = () => {
 
     setAddDisabled(true)
 
-    addPlay({
-      variables: {
-        eventId: data.event.id,
-        gameId: selectedGame.id,
-        winnerIds,
-        loserIds
-      }
-    })
+    let addPlayResult
+    try {
+      addPlayResult = await addPlay({
+        variables: {
+          eventId: data.event.id,
+          gameId: selectedGame.id,
+          winnerIds,
+          loserIds
+        }
+      })
+    } catch (error) {
+      console.error(error)
+      setAddDisabled(false)
+      /* TODO: Show error message to user (Harry Jubb, Fri 31 Jan 2020 00:23:56 GMT) */
+      return
+    }
+
+    if (!addPlayResult?.data?.addPlay?.ok) {
+      console.error(error)
+      setAddDisabled(false)
+      /* TODO: Show error message to user (Harry Jubb, Fri 31 Jan 2020 00:23:56 GMT) */
+      return
+    }
+
+    // Redirect back to event
+    history.push(`/event/${eventCode}`)
+
   }
 
   return <Grid container xs={12}>

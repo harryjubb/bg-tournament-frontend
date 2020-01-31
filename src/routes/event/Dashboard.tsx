@@ -112,7 +112,8 @@ const Dashboard: React.FC = () => {
   const {loading, error, data, refetch} = useQuery(GET_EVENT, {
     variables: {
       eventCode
-    }
+    },
+    fetchPolicy: 'network-only'
   })
 
   if (loading) {return <div>Loading...</div>}
