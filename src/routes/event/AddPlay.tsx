@@ -217,7 +217,10 @@ const AddPlay: React.FC = () => {
     </List>
 
     <Grid container item xs={12} alignItems="center" justify="flex-end">
-      <Button className={classes.cancelButton}>
+      <Button
+        className={classes.cancelButton}
+        onClick={() => history.push(`/event/${eventCode}`)}
+      >
         Cancel
       </Button>
       <Button
