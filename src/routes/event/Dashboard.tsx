@@ -120,10 +120,15 @@ const Dashboard: React.FC = () => {
 
   const {event} = data
   const {name, code, players} = event
-  const processedPlayers = [...players].sort((a, b) => a.eventTotalScore > b.eventTotalScore ? -1 : 1).map(player => ({
+  const sortedPlayers = [...players].sort((a, b) => a.eventTotalScore > b.eventTotalScore ? -1 : 1)
+  const sortedPlayerScores = sortedPlayers.map(player => player.eventTotalScore)
+
+  const processedSortedPlayers = sortedPlayers.map(player => ({
     ...player,
     initial: player.name.slice(0, 1).toUpperCase(),
-    score: Number(player.eventTotalScore).toFixed(0),
+    score: player.eventTotalScore,
+    displayedScore: Number(player.eventTotalScore).toFixed(0),
+    rank: sortedPlayerScores.indexOf(player.eventTotalScore) + 1,
     wins: player.eventWinCount,
     losses: player.eventLossCount,
     winLossPercent: `${isNaN(player.eventWinCount / player.eventPlayCount) ? 0 : Math.min(((player.eventWinCount / player.eventPlayCount) * 100), 100).toFixed(0) || 0}% `
@@ -156,25 +161,13 @@ const Dashboard: React.FC = () => {
       >
         <List className={classes.root}>
           <FlipMove>
-            {processedPlayers.map((player, index) => <div key={`${player.id}`}><ListItem alignItems="flex-start">
+            {processedSortedPlayers.map((player, index) => <div key={`${player.id}`}><ListItem alignItems="flex-start">
               <ListItemAvatar style={{marginRight: '25px'}}>
-                {/* <Grid */}
-                {/*   container */}
-                {/*   direction="column" */}
-                {/*   justify="center" */}
-                {/*   alignItems="center" */}
-                {/*   spacing={2} */}
-                {/*   xs={12} */}
-                {/* > */}
-                <StyledBadge badgeContent={`${index + 1}${(nth(index + 1))}`} color='secondary'>
+                <StyledBadge badgeContent={`${player.rank}${(nth(player.rank))}`} color='secondary'>
                   <Avatar alt={player.name} src="/broken-image.jpg">
                     {player.initial}
                   </Avatar>
                 </StyledBadge>
-                {/* <Typography variant="caption" color="textSecondary"> */}
-                {/*   {index + 1}{(nth(index + 1))} */}
-                {/* </Typography> */}
-                {/* </Grid> */}
               </ListItemAvatar>
               <ListItemText
                 primary={<React.Fragment>
@@ -195,7 +188,7 @@ const Dashboard: React.FC = () => {
                         spacing={1}
                         style={{color: 'black'}}
                       >
-                        <StarsIcon className={classes.pointsDisplay} fontSize="small" />&nbsp;{player.score}
+                        <StarsIcon className={classes.pointsDisplay} fontSize="small" />&nbsp;{player.displayedScore}
                       </Grid>
                     </Grid>
                     <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
