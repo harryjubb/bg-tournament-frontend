@@ -1,4 +1,5 @@
 import React from 'react'
+import {Helmet} from "react-helmet";
 
 import {
   useRouteMatch,
@@ -15,7 +16,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 
-import ShareIcon from '@material-ui/icons/Share';
 import HomeIcon from '@material-ui/icons/Home';
 
 import {
@@ -83,6 +83,9 @@ const Event: React.FC = () => {
 
   return <div>
     <AppBar position="sticky">
+      <Helmet>
+        <title>{eventName}</title>
+      </Helmet>
       <Toolbar>
         <Hidden xsDown>
           <Typography variant="h6" className={classes.title}>

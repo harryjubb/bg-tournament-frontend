@@ -1,4 +1,5 @@
 import React from 'react';
+import {Helmet} from "react-helmet";
 import {useState} from 'react';
 
 import {useHistory} from "react-router-dom";
@@ -45,6 +46,9 @@ const Home: React.FC = () => {
       maxWidth="xl"
       style={{height: '50vh'}}
     >
+      <Helmet>
+        <title>Board Game Tournament</title>
+      </Helmet>
       <Grid
         container
         xs={12}
