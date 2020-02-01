@@ -24,6 +24,7 @@ import StarsIcon from '@material-ui/icons/Stars';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ThumbsUpDownIcon from '@material-ui/icons/ThumbsUpDown';
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 
 import FlipMove from 'react-flip-move';
 
@@ -243,28 +244,28 @@ const Dashboard: React.FC = () => {
                           {
                             player.wins && player.wins === maxWins ?
                               <React.Fragment>
-                                <Chip label="Most wins" />&nbsp;&nbsp;
+                                <Chip size="small" icon={<ThumbUpIcon />} label="Most wins" />&nbsp;&nbsp;
                             </React.Fragment>
                               : null
                           }
                           {
                             player.losses && player.losses === maxLosses ?
                               <React.Fragment>
-                                <Chip label="Most losses" />&nbsp;&nbsp;
+                                <Chip size="small" icon={<ThumbDownIcon />} label="Most losses" />&nbsp;&nbsp;
                             </React.Fragment>
                               : null
                           }
                           {
                             player.winLossRatio && player.winLossRatio === maxWinLossRatio ?
                               <React.Fragment>
-                                <Chip label="Best W/L ratio" />&nbsp;&nbsp;
+                                <Chip size="small" icon={<ThumbsUpDownIcon />} label="Best W/L ratio" />&nbsp;&nbsp;
                             </React.Fragment>
                               : null
                           }
                           {
                             (player.wins || player.losses) && player.wins + player.losses === maxPlays ?
                               <React.Fragment>
-                                <Chip label="Most plays" />&nbsp;&nbsp;
+                                <Chip size="small" icon={<PlayCircleFilledIcon />} label="Most plays" />&nbsp;&nbsp;
                             </React.Fragment>
                               : null
                           }
