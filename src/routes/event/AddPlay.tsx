@@ -144,7 +144,7 @@ const AddPlay: React.FC = () => {
 
     {/* Game */}
     <Autocomplete
-      options={data.games}
+      options={[...data.games].sort((a, b) => a.name > b.name ? 1 : -1)}
       getOptionLabel={(option: any) => option.name}
       style={{width: '100%'}}
       value={selectedGame}
