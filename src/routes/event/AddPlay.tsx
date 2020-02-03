@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {useParams, useHistory} from 'react-router-dom'
+import {useParams, useHistory, Link as RouterLink} from 'react-router-dom'
 
 import gql from 'graphql-tag';
 import {useQuery, useMutation} from '@apollo/react-hooks';
@@ -10,6 +10,8 @@ import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import TextField from '@material-ui/core/TextField';
 
 import Button from '@material-ui/core/Button';
@@ -59,6 +61,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     mrButton: {
       marginRight: theme.spacing(1)
+    },
+    breadcrumbs: {
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(1)
     }
   }),
 );
@@ -168,7 +174,12 @@ const AddPlay: React.FC = () => {
   }
 
   return <Grid container xs={12}>
-    <Typography variant="h2" gutterBottom>Add play</Typography>
+    <Breadcrumbs className={classes.breadcrumbs} aria-label="breadcrumb">
+      <Link color="inherit" component={RouterLink} to={`/event/${eventCode}`}>
+        {data?.event?.name ?? eventCode}
+      </Link>
+      <Typography color="textPrimary">Add play</Typography>
+    </Breadcrumbs>
 
     {/* Game */}
     <Autocomplete
