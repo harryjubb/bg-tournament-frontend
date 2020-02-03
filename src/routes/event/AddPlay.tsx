@@ -57,8 +57,8 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       backgroundColor: theme.palette.background.paper,
     },
-    cancelButton: {
-      marginRight: theme.spacing(0.5)
+    mrButton: {
+      marginRight: theme.spacing(1)
     }
   }),
 );
@@ -96,7 +96,7 @@ const AddPlay: React.FC = () => {
   if (error) {return <div>todo error</div>}
 
 
-  const addClicked = async () => {
+  const submitPlay = async () => {
 
     /* TODO: Set validation state of game input (Harry Jubb, Thu 30 Jan 2020 22:10:14 GMT) */
     if (!selectedGame) return
@@ -105,8 +105,8 @@ const AddPlay: React.FC = () => {
     const loserIds = Object.entries(playPlayerState).filter(([playerId, playerState]) => playerState === 'loser').map(([playerId, playerState]) => playerId)
 
     /* TODO: Set validation state for winners/losers (Harry Jubb, Thu 30 Jan 2020 22:11:56 GMT) */
-    if (!winnerIds) return
-    if (!loserIds) return
+    if (!winnerIds) throw new Error('No winner IDs')
+    if (!loserIds) throw new Error('No loser IDs')
 
     setAddDisabled(true)
 
@@ -124,18 +124,46 @@ const AddPlay: React.FC = () => {
       console.error(error)
       setAddDisabled(false)
       /* TODO: Show error message to user (Harry Jubb, Fri 31 Jan 2020 00:23:56 GMT) */
-      return
+      throw new Error('Could not add play')
     }
 
     if (!addPlayResult?.data?.addPlay?.ok) {
       console.error(error)
       setAddDisabled(false)
       /* TODO: Show error message to user (Harry Jubb, Fri 31 Jan 2020 00:23:56 GMT) */
-      return
+      throw new Error('Could not add play')
+    }
+
+  }
+
+  const addClicked = async () => {
+
+    try {
+      await submitPlay()
+    } catch (error) {
+      // Nothing for now
     }
 
     // Redirect back to event
     history.push(`/event/${eventCode}`)
+
+  }
+
+  const addWithMoreClicked = async () => {
+
+    try {
+      await submitPlay()
+    } catch (error) {
+      // Nothing for now
+    }
+
+    // Reset form
+    setSelectedGame(null)
+    setPlayPlayerState(Object.fromEntries(
+      data?.event?.players?.map((player: any) => [player.id, 'neither']) ?? []
+    ))
+    setAddDisabled(false)
+
 
   }
 
@@ -219,13 +247,26 @@ const AddPlay: React.FC = () => {
 
     <Grid container item xs={12} alignItems="center" justify="flex-end">
       <Button
-        className={classes.cancelButton}
+        className={classes.mrButton}
         disabled={addDisabled}
         onClick={() => history.push(`/event/${eventCode}`)}
       >
         Cancel
       </Button>
       <Button
+        className={classes.mrButton}
+        variant="outlined"
+        color="primary"
+        disabled={
+          !selectedGame ||
+          !Object.values(playPlayerState).some(state => state === 'winner') ||
+          !Object.values(playPlayerState).some(state => state === 'loser') ||
+          addDisabled
+        }
+        onClick={addWithMoreClicked}
+      >
+        Save and add new
+      </Button><Button
         variant="contained"
         color="primary"
         disabled={
@@ -236,7 +277,7 @@ const AddPlay: React.FC = () => {
         }
         onClick={addClicked}
       >
-        Add
+        Save
       </Button>
     </Grid>
     <Grid container item xs={12} alignItems="center" justify="flex-end">
