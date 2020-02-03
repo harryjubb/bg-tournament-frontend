@@ -3,7 +3,8 @@ import {Helmet} from "react-helmet";
 
 import {
   useRouteMatch,
-  useParams
+  useParams,
+  useHistory
 } from 'react-router-dom'
 
 import gql from 'graphql-tag';
@@ -16,7 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 
-import HomeIcon from '@material-ui/icons/Home';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import {
   Switch,
@@ -64,6 +65,7 @@ query ($eventCode: String!) {
 
 const Event: React.FC = () => {
 
+  const history = useHistory()
   const {path} = useRouteMatch();
 
   const {eventCode} = useParams();
@@ -106,8 +108,8 @@ const Event: React.FC = () => {
             {eventCode}&nbsp;
         </Typography>
         </Hidden>
-        <IconButton color="inherit">
-          <HomeIcon />
+        <IconButton onClick={() => history.push('/')} color="inherit">
+          <ExitToAppIcon />
         </IconButton>
       </Toolbar>
     </AppBar>
