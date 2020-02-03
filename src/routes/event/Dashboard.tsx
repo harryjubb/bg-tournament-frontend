@@ -31,6 +31,9 @@ import FlipMove from 'react-flip-move';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
+import UIfx from 'uifx'
+/* import eventUpdatedMp3 from './bell.mp3' */
+
 /* import Button from '@material-ui/core/Button'; */
 /* import ShareIcon from '@material-ui/icons/Share'; */
 
@@ -40,6 +43,8 @@ import AddIcon from '@material-ui/icons/Add';
 /*     verticalAlign: 'center' */
 /*   }, */
 /* })); */
+
+const eventUpdatedSound = new UIfx(`${process.env.PUBLIC_URL}/audio/bell.mp3`)
 
 const StyledBadge = withStyles((theme: Theme) =>
   createStyles({
@@ -144,10 +149,14 @@ const Dashboard: React.FC = () => {
   const maxWinLossRatio = Math.max(...processedSortedPlayers.map(player => player.winLossRatio))
   const maxPlays = Math.max(...processedSortedPlayers.map(player => player.wins + player.losses))
 
-  const eventUpdated = (data: string) => {
+  const eventUpdated = async (data: string) => {
     const result = JSON.parse(data)
     if (result.type === 'event.updated') {
-      refetch()
+      const refetchedEvent = await refetch()
+      console.log(refetchedEvent)
+      if (refetchedEvent?.data?.event?.id && !refetchedEvent?.errors) {
+        eventUpdatedSound.play()
+      }
     }
   }
 

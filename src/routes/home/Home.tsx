@@ -33,7 +33,7 @@ const Home: React.FC = () => {
     setEventCode(event.target.value)
   }
 
-  const eventCodeInputKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  const eventCodeInputKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       navigateToEvent(eventCode)
       event.preventDefault();
