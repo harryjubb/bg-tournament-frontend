@@ -4,7 +4,8 @@ import {Helmet} from "react-helmet";
 import {
   useRouteMatch,
   useParams,
-  useHistory
+  useHistory,
+  Link as RouterLink
 } from 'react-router-dom'
 
 import gql from 'graphql-tag';
@@ -15,6 +16,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
 import Hidden from '@material-ui/core/Hidden';
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -78,7 +80,7 @@ const Event: React.FC = () => {
   })
 
   if (loading) {return <div>Loading...</div>}
-  if (error) {return <div>todo 404</div>}
+  if (error) {return <div>Event not found</div>}
 
 
   const {name: eventName} = data.event
@@ -95,7 +97,9 @@ const Event: React.FC = () => {
       <Toolbar>
         <Hidden xsDown>
           <Typography variant="h6" className={classes.title}>
-            {eventName}
+            <Link color="inherit" component={RouterLink} to={`/event/${eventCode}`}>
+              {eventName}
+            </Link>
           </Typography>
         </Hidden>
         <Hidden smUp>
@@ -105,8 +109,10 @@ const Event: React.FC = () => {
         </Hidden>
         <Hidden xsDown>
           <Typography variant="h6">
-            {eventCode}&nbsp;
-        </Typography>
+            <Link color="inherit" component={RouterLink} to={`/event/${eventCode}`}>
+              {eventCode}&nbsp;
+            </Link>
+          </Typography>
         </Hidden>
         <IconButton onClick={() => history.push('/')} color="inherit">
           <ExitToAppIcon />
