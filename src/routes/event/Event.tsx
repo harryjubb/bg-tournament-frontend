@@ -45,6 +45,9 @@ const useStyles = makeStyles((theme: Theme) =>
     eventContent: {
       marginTop: theme.spacing(1)
     },
+    mr: {
+      marginRight: theme.spacing(1)
+    }
   }),
 );
 
@@ -110,9 +113,9 @@ const Event: React.FC = () => {
           </Typography>
         </Hidden>
         <Hidden xsDown>
-          <Typography variant="h6">
+          <Typography variant="h6" className={classes.mr}>
             <Link color="inherit" component={RouterLink} to={`/event/${eventCode}`}>
-              {eventCode}&nbsp;
+              {eventCode}
             </Link>
           </Typography>
         </Hidden>
