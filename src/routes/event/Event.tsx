@@ -85,6 +85,10 @@ const Event: React.FC = () => {
     <AppBar position="sticky">
       <Helmet>
         <title>{eventName}</title>
+        <meta
+          name="description"
+          content={`Tournament event: ${eventName}`}
+        />
       </Helmet>
       <Toolbar>
         <Hidden xsDown>
