@@ -104,7 +104,9 @@ const Event: React.FC = () => {
         </Hidden>
         <Hidden smUp>
           <Typography variant="h6" className={classes.title}>
-            {eventCode}
+            <Link color="inherit" component={RouterLink} to={`/event/${eventCode}`}>
+              {eventCode}
+            </Link>
           </Typography>
         </Hidden>
         <Hidden xsDown>
