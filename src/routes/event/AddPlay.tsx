@@ -239,6 +239,9 @@ const AddPlay: React.FC = () => {
         Add
       </Button>
     </Grid>
+    <Grid container item xs={12} alignItems="center" justify="flex-end">
+      &nbsp;
+    </Grid>
 
     {/* {JSON.stringify(data)} */}
   </Grid>
