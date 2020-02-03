@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense, lazy} from 'react';
 
 import {
   BrowserRouter as Router,
@@ -6,21 +6,22 @@ import {
   Route,
 } from "react-router-dom";
 
-import Home from './routes/home/Home'
-import Event from './routes/event/Event'
-
+const Home = lazy(() => import('./routes/home/Home'))
+const Event = lazy(() => import('./routes/event/Event'))
 
 const App: React.FC = () => {
   return (
     <Router>
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route path="/event/:eventCode">
-          <Event />
-        </Route>
-      </Switch>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/event/:eventCode">
+            <Event />
+          </Route>
+        </Switch>
+      </Suspense>
     </Router>
   );
 }

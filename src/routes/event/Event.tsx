@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Suspense, lazy} from 'react';
 import {Helmet} from "react-helmet";
 
 import {
@@ -23,10 +23,10 @@ import {
   Route,
 } from "react-router-dom";
 
-import Dashboard from './Dashboard'
-import AddPlay from './AddPlay'
-
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+
+const Dashboard = lazy(() => import('./Dashboard'))
+const AddPlay = lazy(() => import('./AddPlay'))
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -115,14 +115,16 @@ const Event: React.FC = () => {
       maxWidth="xl"
       className={classes.eventContent}
     >
-      <Switch>
-        <Route exact path={path}>
-          <Dashboard />
-        </Route>
-        <Route path={`${path}/play/add`}>
-          <AddPlay />
-        </Route>
-      </Switch>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Switch>
+          <Route exact path={path}>
+            <Dashboard />
+          </Route>
+          <Route path={`${path}/play/add`}>
+            <AddPlay />
+          </Route>
+        </Switch>
+      </Suspense>
     </Container>
   </div>
 }
