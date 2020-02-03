@@ -174,7 +174,7 @@ const Dashboard: React.FC = () => {
             {processedSortedPlayers.map((player, index) => <div key={`${player.id}`}><ListItem alignItems="flex-start">
               <ListItemAvatar style={{marginRight: '25px'}}>
                 <StyledBadge badgeContent={`${player.rank}${(nth(player.rank))}`} color='secondary'>
-                  <Avatar alt={player.name} src={player.avatarUrl ?? 'noimage.jpg'}>
+                  <Avatar alt={player.name} src={player.avatarUrl ?? null}>
                     {player.initial}
                   </Avatar>
                 </StyledBadge>
