@@ -30,7 +30,7 @@ const Home: React.FC = () => {
   const eventCodeInputChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEventCodeLabel('Event code')
     setEventCodeError(false)
-    setEventCode(event.target.value)
+    setEventCode(event.target.value.toUpperCase())
   }
 
   const eventCodeInputKeyPress = (event: React.KeyboardEvent) => {
