@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {useParams, useHistory, Link as RouterLink} from 'react-router-dom'
+import {useSnackbar} from 'notistack';
 
 import gql from 'graphql-tag';
 import {useQuery, useMutation} from '@apollo/react-hooks';
@@ -79,6 +80,7 @@ const AddPlay: React.FC = () => {
 
   const classes = useStyles()
   const history = useHistory()
+  const {enqueueSnackbar, closeSnackbar} = useSnackbar();
   const {eventCode} = useParams()
 
   const [selectedGame, setSelectedGame] = useState<Game | null>(null)
@@ -129,16 +131,18 @@ const AddPlay: React.FC = () => {
     } catch (error) {
       console.error(error)
       setAddDisabled(false)
-      /* TODO: Show error message to user (Harry Jubb, Fri 31 Jan 2020 00:23:56 GMT) */
+      enqueueSnackbar('Error adding play', {variant: 'error'})
       throw new Error('Could not add play')
     }
 
     if (!addPlayResult?.data?.addPlay?.ok) {
       console.error(error)
       setAddDisabled(false)
-      /* TODO: Show error message to user (Harry Jubb, Fri 31 Jan 2020 00:23:56 GMT) */
+      enqueueSnackbar('Error adding play', {variant: 'error'})
       throw new Error('Could not add play')
     }
+
+    enqueueSnackbar('Play added', {variant: 'success'})
 
   }
 
@@ -147,7 +151,8 @@ const AddPlay: React.FC = () => {
     try {
       await submitPlay()
     } catch (error) {
-      // Nothing for now
+      // Return so we don't navigate without having added a play
+      return
     }
 
     // Redirect back to event
@@ -160,7 +165,8 @@ const AddPlay: React.FC = () => {
     try {
       await submitPlay()
     } catch (error) {
-      // Nothing for now
+      // Return so we don't clear the form
+      return
     }
 
     // Reset form

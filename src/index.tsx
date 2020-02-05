@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import {SnackbarProvider} from 'notistack';
+
 import './index.css'
 
 import ApolloClient from 'apollo-boost';
@@ -14,7 +16,12 @@ const apolloClient = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={apolloClient}>
-    <App />
+    <SnackbarProvider maxSnack={1} anchorOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}>
+      <App />
+    </SnackbarProvider>
   </ApolloProvider>,
   document.getElementById('root')
 );
