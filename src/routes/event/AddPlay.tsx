@@ -164,7 +164,6 @@ const AddPlay: React.FC = () => {
     }
 
     // Reset form
-    setSelectedGame(null)
     setPlayPlayerState(Object.fromEntries(
       data?.event?.players?.map((player: any) => [player.id, 'neither']) ?? []
     ))
