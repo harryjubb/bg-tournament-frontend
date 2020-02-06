@@ -80,7 +80,7 @@ const AddPlay: React.FC = () => {
 
   const classes = useStyles()
   const history = useHistory()
-  const {enqueueSnackbar, closeSnackbar} = useSnackbar();
+  const {enqueueSnackbar} = useSnackbar();
   const {eventCode} = useParams()
 
   const [selectedGame, setSelectedGame] = useState<Game | null>(null)

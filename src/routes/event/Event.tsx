@@ -1,5 +1,6 @@
 import React, {Suspense, lazy} from 'react';
 import {Helmet} from "react-helmet";
+import {useSnackbar} from 'notistack';
 
 import {
   useRouteMatch,
@@ -72,6 +73,7 @@ const Event: React.FC = () => {
 
   const history = useHistory()
   const {path} = useRouteMatch();
+  const {enqueueSnackbar} = useSnackbar();
 
   const {eventCode} = useParams();
   const classes = useStyles();
@@ -83,7 +85,11 @@ const Event: React.FC = () => {
   })
 
   if (loading) {return <div>Loading...</div>}
-  if (error) {return <div>Event not found</div>}
+  if (error) {
+    enqueueSnackbar(`Unable to load event with code ${eventCode}`, {variant: 'error'})
+    history.push('/')
+    return <div></div>
+  }
 
 
   const {name: eventName} = data.event
