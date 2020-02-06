@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link, useParams, useRouteMatch} from 'react-router-dom'
 
+import Loading from '../../Loading'
+
 import gql from 'graphql-tag';
 import {useQuery} from '@apollo/react-hooks';
 
@@ -124,7 +126,7 @@ const Dashboard: React.FC = () => {
     fetchPolicy: 'network-only'
   })
 
-  if (loading) {return <div>Loading...</div>}
+  if (loading) {return <Loading />}
   if (error) {return <div>Unable to load event</div>}
 
   const {event} = data

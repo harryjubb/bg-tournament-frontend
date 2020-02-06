@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import {useParams, useHistory, Link as RouterLink} from 'react-router-dom'
 import {useSnackbar} from 'notistack';
 
+import Loading from '../../Loading'
+
 import gql from 'graphql-tag';
 import {useQuery, useMutation} from '@apollo/react-hooks';
 
@@ -100,7 +102,7 @@ const AddPlay: React.FC = () => {
 
   const [addPlay, {data: addPlayData}] = useMutation(ADD_PLAY)
 
-  if (loading) {return <div>Loading...</div>}
+  if (loading) {return <Loading />}
   if (error) {return <div>todo error</div>}
 
 

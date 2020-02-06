@@ -2,6 +2,8 @@ import React, {Suspense, lazy} from 'react';
 import {Helmet} from "react-helmet";
 import {useSnackbar} from 'notistack';
 
+import Loading from '../../Loading'
+
 import {
   useRouteMatch,
   useParams,
@@ -85,7 +87,7 @@ const Event: React.FC = () => {
     }
   })
 
-  if (loading) {return <div>Loading...</div>}
+  if (loading) {return <Loading />}
   if (error) {
     enqueueSnackbar(`Unable to load event with code ${eventCode}`, {variant: 'error'})
     return <Redirect to="/" />
@@ -134,7 +136,7 @@ const Event: React.FC = () => {
       maxWidth="xl"
       className={classes.eventContent}
     >
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading />}>
         <Switch>
           <Route exact path={path}>
             <Dashboard />

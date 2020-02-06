@@ -1,5 +1,6 @@
 import React, {Suspense, lazy} from 'react';
 
+import Loading from './Loading'
 import NotFound from './NotFound'
 
 import {
@@ -14,7 +15,7 @@ const Event = lazy(() => import('./routes/event/Event'))
 const App: React.FC = () => {
   return (
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading />}>
         <Switch>
           <Route exact path="/">
             <Home />
