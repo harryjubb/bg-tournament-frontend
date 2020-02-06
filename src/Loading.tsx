@@ -27,7 +27,7 @@ const Loading: React.FC = () => {
     const timer = setTimeout(() => {
       console.log('loadign on')
       setTimedOut(true)
-    }, 1000);
+    }, 250);
     return () => clearTimeout(timer);
   }, []);
 
