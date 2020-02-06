@@ -1,5 +1,4 @@
-/* import React, {useState, useEffect} from 'react'; */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -17,16 +16,20 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Loading: React.FC = () => {
 
+  console.log('loading component rendered')
+
   const classes = useStyles()
 
-  const [timedOut, setTimedOut] = useState<boolean>(true)
+  const [timedOut, setTimedOut] = useState<boolean>(false)
 
-  /* useEffect(() => () => { */
-  /*   console.log('loading effect') */
-  /*   setTimeout(() => { */
-  /*     setTimedOut(true) */
-  /*   }, 500) */
-  /* }) */
+  useEffect(() => {
+    console.log('loading effect')
+    const timer = setTimeout(() => {
+      console.log('loadign on')
+      setTimedOut(true)
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return timedOut ?
     <Grid
