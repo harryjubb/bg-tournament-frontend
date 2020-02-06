@@ -6,7 +6,8 @@ import {
   useRouteMatch,
   useParams,
   useHistory,
-  Link as RouterLink
+  Link as RouterLink,
+  Redirect
 } from 'react-router-dom'
 
 import gql from 'graphql-tag';
@@ -87,8 +88,7 @@ const Event: React.FC = () => {
   if (loading) {return <div>Loading...</div>}
   if (error) {
     enqueueSnackbar(`Unable to load event with code ${eventCode}`, {variant: 'error'})
-    history.push('/')
-    return <div></div>
+    return <Redirect to="/" />
   }
 
 
