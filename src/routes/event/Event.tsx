@@ -142,6 +142,9 @@ const Event: React.FC = () => {
           <Route path={`${path}/play/add`}>
             <AddPlay />
           </Route>
+          <Route path="*">
+            <Redirect to={`/event/${eventCode}`} />
+          </Route>
         </Switch>
       </Suspense>
     </Container>

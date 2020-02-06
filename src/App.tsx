@@ -1,5 +1,7 @@
 import React, {Suspense, lazy} from 'react';
 
+import NotFound from './NotFound'
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,6 +22,9 @@ const App: React.FC = () => {
           <Route path="/event/:eventCode">
             <Event />
           </Route>
+          <Route path="*">
+            <NotFound />
+          </Route>>
         </Switch>
       </Suspense>
     </Router>
