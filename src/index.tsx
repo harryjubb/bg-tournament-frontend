@@ -16,7 +16,7 @@ const apolloClient = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={apolloClient}>
-    <SnackbarProvider maxSnack={1} anchorOrigin={{
+    <SnackbarProvider maxSnack={1} autoHideDuration={3000} anchorOrigin={{
       vertical: 'top',
       horizontal: 'center',
     }}>
