@@ -28,6 +28,10 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ThumbsUpDownIcon from '@material-ui/icons/ThumbsUpDown';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 
+import TrendingDownIcon from '@material-ui/icons/TrendingDown';
+import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+
 import FlipMove from 'react-flip-move';
 
 import Fab from '@material-ui/core/Fab';
@@ -106,12 +110,34 @@ query ($eventCode: String!) {
       eventWinCount (eventCode: $eventCode)
       eventLossCount (eventCode: $eventCode)
       eventTotalScore (eventCode: $eventCode)
+      eventPreviousTotalScore (eventCode: $eventCode)
     }
   }
 }
 `
 
 const nth = (n: number) => ["st", "nd", "rd"][((n + 90) % 100 - 10) % 10 - 1] || "th"
+
+type TrendProps = {
+  rank: number,
+  previousRank: number
+}
+
+const Trend: React.FC<TrendProps> = ({rank, previousRank}) => {
+  if (rank < previousRank) {
+    return <TrendingUpIcon style={{color: 'green'}} fontSize="small" />
+  }
+
+  if (rank === previousRank) {
+    return <TrendingFlatIcon style={{color: 'grey'}} fontSize="small" />
+  }
+
+  if (rank > previousRank) {
+    return <TrendingDownIcon style={{color: 'red'}} fontSize="small" />
+  }
+
+  return null
+}
 
 const Dashboard: React.FC = () => {
 
@@ -134,12 +160,16 @@ const Dashboard: React.FC = () => {
   const sortedPlayers = [...players].sort((a, b) => a.eventTotalScore > b.eventTotalScore ? -1 : 1)
   const sortedPlayerScores = sortedPlayers.map(player => player.eventTotalScore)
 
+  const sortedPlayersByPrevious = [...players].sort((a, b) => a.eventPreviousTotalScore > b.eventPreviousTotalScore ? -1 : 1)
+  const sortedPlayersByPreviousScores = sortedPlayersByPrevious.map(player => player.eventPreviousTotalScore)
+
   const processedSortedPlayers = sortedPlayers.map(player => ({
     ...player,
     initial: player.name.slice(0, 1).toUpperCase(),
     score: player.eventTotalScore,
     displayedScore: Number(player.eventTotalScore).toFixed(0),
     rank: sortedPlayerScores.indexOf(player.eventTotalScore) + 1,
+    previousRank: sortedPlayersByPreviousScores.indexOf(player.eventPreviousTotalScore) + 1,
     wins: player.eventWinCount,
     losses: player.eventLossCount,
     winLossRatio: (player.eventWinCount / player.eventPlayCount) || 0,
@@ -155,7 +185,6 @@ const Dashboard: React.FC = () => {
     const result = JSON.parse(data)
     if (result.type === 'event.updated') {
       const refetchedEvent = await refetch()
-      console.log(refetchedEvent)
       if (refetchedEvent?.data?.event?.id && !refetchedEvent?.errors) {
         eventUpdatedSound.play()
       }
@@ -210,6 +239,16 @@ const Dashboard: React.FC = () => {
                         style={{color: 'black'}}
                       >
                         <StarsIcon className={classes.pointsDisplay} fontSize="small" />&nbsp;{player.displayedScore}
+                      </Grid>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
+                      <Grid
+                        container
+                        alignItems="center"
+                        spacing={1}
+                        style={{color: 'black'}}
+                      >
+                        <Trend rank={player.rank} previousRank={player.previousRank} />
                       </Grid>
                     </Grid>
                     <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
