@@ -161,7 +161,7 @@ const Dashboard: React.FC = () => {
   const sortedPlayerScores = sortedPlayers.map(player => player.eventTotalScore)
 
   const sortedPlayersByPrevious = [...players].sort((a, b) => a.eventPreviousTotalScore > b.eventPreviousTotalScore ? -1 : 1)
-  const sortedPlayersByPreviousScores = sortedPlayersByPrevious.map(player => player.eventPreviousTotalScore)
+  /* const sortedPlayersByPreviousScores = sortedPlayersByPrevious.map(player => player.eventPreviousTotalScore) */
 
   const processedSortedPlayers = sortedPlayers.map(player => ({
     ...player,
@@ -169,7 +169,8 @@ const Dashboard: React.FC = () => {
     score: player.eventTotalScore,
     displayedScore: Number(player.eventTotalScore).toFixed(0),
     rank: sortedPlayerScores.indexOf(player.eventTotalScore) + 1,
-    previousRank: sortedPlayersByPreviousScores.indexOf(player.eventPreviousTotalScore) + 1,
+    /* previousRank: sortedPlayersByPreviousScores.indexOf(player.eventPreviousTotalScore) + 1, */
+    previousRank: sortedPlayersByPrevious.findIndex(sortedPlayer => sortedPlayer.id === player.id) + 1,
     wins: player.eventWinCount,
     losses: player.eventLossCount,
     winLossRatio: (player.eventWinCount / player.eventPlayCount) || 0,
