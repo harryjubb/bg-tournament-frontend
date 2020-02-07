@@ -233,7 +233,7 @@ const Dashboard: React.FC = () => {
                     spacing={1}
                     className={classes.scoreDisplay}
                   >
-                    <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
+                    <Grid item xs={3} sm={2} md={1} lg={1} xl={1}>
                       <Grid
                         container
                         alignItems="center"
@@ -243,7 +243,7 @@ const Dashboard: React.FC = () => {
                         <StarsIcon className={classes.pointsDisplay} fontSize="small" />&nbsp;{player.displayedScore}
                       </Grid>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
+                    <Grid item xs={3} sm={2} md={1} lg={1} xl={1}>
                       <Grid
                         container
                         alignItems="center"
@@ -253,7 +253,7 @@ const Dashboard: React.FC = () => {
                         <Trend rank={player.rank} previousRank={player.previousRank} />
                       </Grid>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
+                    <Grid item xs={3} sm={2} md={1} lg={1} xl={1}>
                       <Grid
                         container
                         alignItems="center"
@@ -263,7 +263,7 @@ const Dashboard: React.FC = () => {
                         <ThumbUpIcon fontSize="small" />&nbsp;&nbsp;{player.wins}
                       </Grid>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
+                    <Grid item xs={3} sm={2} md={1} lg={1} xl={1}>
                       <Grid
                         container
                         alignItems="center"
@@ -273,7 +273,8 @@ const Dashboard: React.FC = () => {
                         <ThumbDownIcon fontSize="small" />&nbsp;&nbsp;{player.losses}
                       </Grid>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
+                    <Hidden xsDown>
+                    <Grid item xs={3} sm={2} md={1} lg={1} xl={1}>
                       <Grid
                         container
                         alignItems="center"
@@ -283,6 +284,7 @@ const Dashboard: React.FC = () => {
                         <ThumbsUpDownIcon fontSize="small" />&nbsp;&nbsp;{player.winLossPercent}
                       </Grid>
                     </Grid>
+                    </Hidden>
                     <Hidden smDown>
                       <Grid item>
                         <Grid
