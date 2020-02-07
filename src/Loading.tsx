@@ -16,16 +16,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Loading: React.FC = () => {
 
-  console.log('loading component rendered')
-
   const classes = useStyles()
 
   const [timedOut, setTimedOut] = useState<boolean>(false)
 
   useEffect(() => {
-    console.log('loading effect')
     const timer = setTimeout(() => {
-      console.log('loadign on')
       setTimedOut(true)
     }, 250);
     return () => clearTimeout(timer);
