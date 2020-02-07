@@ -32,6 +32,8 @@ import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 import FlipMove from 'react-flip-move';
 
 import Fab from '@material-ui/core/Fab';
@@ -176,6 +178,7 @@ const Dashboard: React.FC = () => {
     winLossPercent: `${Math.min((((player.eventWinCount / player.eventPlayCount) || 0) * 100), 100).toFixed(0) || 0}% `
   }))
 
+  const maxScore = Math.max(...processedSortedPlayers.map(player => player.score))
   const maxWins = Math.max(...processedSortedPlayers.map(player => player.wins))
   const maxLosses = Math.max(...processedSortedPlayers.map(player => player.losses))
   const maxWinLossRatio = Math.max(...processedSortedPlayers.map(player => player.winLossRatio))
@@ -245,6 +248,7 @@ const Dashboard: React.FC = () => {
                       <Grid
                         container
                         alignItems="center"
+                        justify="center"
                         spacing={1}
                         style={{color: 'black'}}
                       >
@@ -255,6 +259,17 @@ const Dashboard: React.FC = () => {
                       <Grid
                         container
                         alignItems="center"
+                        justify="center"
+                        spacing={1}
+                      >
+                        <LinearProgress style={{height: '2px', minWidth: '100%'}} variant="determinate" value={(player.score / maxScore) * 100} />
+                      </Grid>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={2} lg={1} xl={1}>
+                      <Grid
+                        container
+                        alignItems="center"
+                        justify="center"
                         spacing={1}
                         className={classes.winDisplay}
                       >
@@ -265,6 +280,7 @@ const Dashboard: React.FC = () => {
                       <Grid
                         container
                         alignItems="center"
+                        justify="center"
                         spacing={1}
                         className={classes.lossDisplay}
                       >
@@ -275,6 +291,7 @@ const Dashboard: React.FC = () => {
                       <Grid
                         container
                         alignItems="center"
+                        justify="center"
                         spacing={1}
                         className={classes.ratioDisplay}
                       >
