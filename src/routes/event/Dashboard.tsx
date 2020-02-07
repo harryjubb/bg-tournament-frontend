@@ -274,16 +274,16 @@ const Dashboard: React.FC = () => {
                       </Grid>
                     </Grid>
                     <Hidden xsDown>
-                    <Grid item xs={3} sm={2} md={1} lg={1} xl={1}>
-                      <Grid
-                        container
-                        alignItems="center"
-                        spacing={1}
-                        className={classes.ratioDisplay}
-                      >
-                        <ThumbsUpDownIcon fontSize="small" />&nbsp;&nbsp;{player.winLossPercent}
+                      <Grid item xs={3} sm={2} md={1} lg={1} xl={1}>
+                        <Grid
+                          container
+                          alignItems="center"
+                          spacing={1}
+                          className={classes.ratioDisplay}
+                        >
+                          <ThumbsUpDownIcon fontSize="small" />&nbsp;&nbsp;{player.winLossPercent}
+                        </Grid>
                       </Grid>
-                    </Grid>
                     </Hidden>
                     <Hidden smDown>
                       <Grid item>
