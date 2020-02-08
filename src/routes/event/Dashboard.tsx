@@ -15,6 +15,9 @@ import useInterval from '@use-it/interval';
 // @ts-ignore
 import Websocket from 'react-websocket';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+
 import {withStyles, createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
@@ -242,7 +245,6 @@ const Dashboard: React.FC = () => {
       {/* </Typography> */}
 
       {/* {JSON.stringify(data)} */}
-
       <Grid
         container
         direction="row"
@@ -260,7 +262,8 @@ const Dashboard: React.FC = () => {
           lg={8}
           xl={7}
         >
-          <Typography variant="h5">Leaderboard</Typography>
+          <Typography variant="h5">Leaderboard {loading && <CircularProgress size={20} />}</Typography>
+
           <List className={classes.root}>
             <FlipMove>
               {processedSortedPlayers.map((player, index) => <div key={`${player.id}`}><ListItem alignItems="flex-start">
@@ -399,7 +402,7 @@ const Dashboard: React.FC = () => {
           xl={5}
           className={classes.mt}
         >
-          <Typography variant="h5" gutterBottom>Most recent of {event.playCount} game{event.playCount === 1 ? '' : 's'} played</Typography>
+          <Typography variant="h5" gutterBottom>Most recent of {event.playCount} game{event.playCount === 1 ? '' : 's'} played {loading && <CircularProgress size={20} />}</Typography>
           <Grid container direction="row" spacing={1} xs={12}>
             {
               event?.recentPlays?.map((play: any) => <Grid key={play.id} item xs={12}>
