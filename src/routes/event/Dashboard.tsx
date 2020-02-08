@@ -51,6 +51,8 @@ import FlipMove from 'react-flip-move';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
+import Alert from '@material-ui/lab/Alert';
+
 import UIfx from 'uifx'
 /* import eventUpdatedMp3 from './bell.mp3' */
 
@@ -404,6 +406,7 @@ const Dashboard: React.FC = () => {
         >
           <Typography variant="h5" gutterBottom>Most recent of {event.playCount} game{event.playCount === 1 ? '' : 's'} played {loading && <CircularProgress size={20} />}</Typography>
           <Grid container direction="row" spacing={1} xs={12}>
+            {!event?.recentPlays?.length ? <Alert severity="info" style={{flexGrow: 1}}>Play a game to see most recent.</Alert> : null}
             {
               event?.recentPlays?.map((play: any) => <Grid key={play.id} item xs={12}>
                 <Card style={{display: 'flex'}}>
