@@ -4,6 +4,8 @@ import {useSnackbar} from 'notistack';
 
 import Loading from '../../Loading'
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import gql from 'graphql-tag';
 import {useQuery, useMutation} from '@apollo/react-hooks';
 
@@ -284,6 +286,7 @@ const AddPlay: React.FC = () => {
         onClick={addWithMoreClicked}
       >
         Save and add new
+        {addDisabled && <React.Fragment>&nbsp;<CircularProgress size={15} style={{color: 'grey'}} /></React.Fragment>}
       </Button><Button
         variant="contained"
         color="primary"
@@ -296,6 +299,7 @@ const AddPlay: React.FC = () => {
         onClick={addClicked}
       >
         Save
+        {addDisabled && <React.Fragment>&nbsp;<CircularProgress size={15} style={{color: 'grey'}} /></React.Fragment>}
       </Button>
     </Grid>
     <Grid container item xs={12} alignItems="center" justify="flex-end">
