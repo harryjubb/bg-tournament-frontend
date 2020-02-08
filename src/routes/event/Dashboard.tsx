@@ -248,7 +248,8 @@ const Dashboard: React.FC = () => {
         direction="row"
         spacing={2}
       >
-        <Grid item container direction="row" alignItems="flex-start" xs={12} sm={12} md={12} lg={7} xl={7}>
+        <Grid className={classes.mt} item container direction="row" alignItems="flex-start" xs={12} sm={12} md={12} lg={8} xl={7}>
+          <Typography variant="h5">Leaderboard</Typography>
           <List className={classes.root}>
             <FlipMove>
               {processedSortedPlayers.map((player, index) => <div key={`${player.id}`}><ListItem alignItems="flex-start">
@@ -312,7 +313,7 @@ const Dashboard: React.FC = () => {
                         </Grid>
                       </Grid>
                       <Hidden xsDown>
-                        <Grid item xs={3} sm={2} md={1} lg={1} xl={1}>
+                        <Grid item xs={3} sm={2} md={1} lg={2} xl={2}>
                           <Grid
                             container
                             alignItems="center"
@@ -374,7 +375,7 @@ const Dashboard: React.FC = () => {
             </FlipMove>
           </List>
         </Grid>
-        <Grid item container direction="row" xs={12} sm={12} md={12} lg={5} xl={5} className={classes.mt}>
+        <Grid item container direction="row" xs={12} sm={12} md={12} lg={4} xl={5} className={classes.mt}>
           <Typography variant="h5" gutterBottom>Most recent of {event.playCount} game{event.playCount === 1 ? '' : 's'} played</Typography>
           <Grid container direction="row" spacing={1} xs={12}>
             {
