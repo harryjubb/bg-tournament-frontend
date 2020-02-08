@@ -188,10 +188,10 @@ const Dashboard: React.FC = () => {
     variables: {
       eventCode
     },
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'cache-and-network'
   })
 
-  if (loading) {return <Loading />}
+  if (!data && loading) {return <Loading />}
   if (error) {return <div>Unable to load event</div>}
 
   const {event} = data
